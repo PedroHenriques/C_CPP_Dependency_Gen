@@ -1,0 +1,9 @@
+{
+	"sleep_timer" : 5,
+	"dependency_dir" : "",
+	"dependency_paths" : true,
+	"include_source" : true,
+	"builtin_libs" : false,
+	"search_paths" : "",
+	"use_incomplete_list" : false
+}

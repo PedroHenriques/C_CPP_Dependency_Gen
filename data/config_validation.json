@@ -1,0 +1,37 @@
+{
+	"sleep_timer" : {
+		"data_type" : "int",
+		"min" : 1
+	},
+
+	"dependency_dir" : {
+		"data_type" : "str",
+		"empty" : true,
+		"path_types" : ["rel", "abs"],
+		"callbacks" : ["preparePath", "updateFilesLoc"]
+	},
+
+	"dependency_paths" : {
+		"data_type" : "bool"
+	},
+
+	"include_source" : {
+		"data_type" : "bool"
+	},
+
+	"builtin_libs" : {
+		"data_type" : "bool",
+		"callbacks" : ["updateSearchPaths"]
+	},
+
+	"search_paths" : {
+		"data_type" : "str",
+		"empty" : true,
+		"path_types" : ["abs"],
+		"callbacks" : ["preparePath", "updateSearchPaths"]
+	},
+
+	"use_incomplete_list" : {
+		"data_type" : "bool"
+	}
+}
