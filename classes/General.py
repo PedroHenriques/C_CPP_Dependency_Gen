@@ -1,6 +1,6 @@
 ############################################################
 #															#
-# C_Cpp_Dependency_Gen v1.0.0								#
+# C_Cpp_Dependency_Gen v1.0.1								#
 #															#
 # Copyright 2017, PedroHenriques							#
 # http://www.pedrojhenriques.com							#

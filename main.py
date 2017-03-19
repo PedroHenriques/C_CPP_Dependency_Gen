@@ -1,6 +1,6 @@
 ############################################################
 #															#
-# C_CPP_Dependency_Gen v1.0.0								#
+# C_Cpp_Dependency_Gen v1.0.1								#
 #															#
 # Copyright 2017, PedroHenriques							#
 # http://www.pedrojhenriques.com							#
@@ -24,7 +24,7 @@ try :
 except (KeyboardInterrupt, SystemExit) :
 	# the user pressed CTRL-C so terminate the program
 	# print the outro message
-	app.outro_msg()
+	app.outroMsg()
 except Exception as e :
 	print("\n")
 	traceback.print_exc()

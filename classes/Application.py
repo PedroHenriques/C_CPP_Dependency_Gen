@@ -1,6 +1,6 @@
 ############################################################
 #															#
-# C_Cpp_Dependency_Gen v1.0.0								#
+# C_Cpp_Dependency_Gen v1.0.1								#
 #															#
 # Copyright 2017, PedroHenriques							#
 # http://www.pedrojhenriques.com							#
@@ -62,14 +62,14 @@ class Application :
 			self.relevant_basenames.add("*." + src_extension)
 
 		# show the welcome message
-		self.cli_obj.print_msg(1, "# # # # # # # # # # # # # # # # # # # # # # # # #\n\nWelcome to the C/C++ Dependency Generator.\n\nType \"help\" for a list of valid commands.\n\n# # # # # # # # # # # # # # # # # # # # # # # # #", False)
+		self.cli_obj.printMsg(1, "# # # # # # # # # # # # # # # # # # # # # # # # #\n\nWelcome to the C/C++ Dependency Generator.\n\nType \"help\" for a list of valid commands.\n\n# # # # # # # # # # # # # # # # # # # # # # # # #", False)
 
 		# check if the program's configuration validation file exists
 		config_val_path = os.path.abspath(self.program_root + "\\data\\config_validation.json")
 		if (not os.path.isfile(config_val_path)) :
 			# the file doesn't exist
 			# print error message
-			self.cli_obj.print_msg(0, "The program's configuration validation file couldn't be found.", True)
+			self.cli_obj.printMsg(0, "The program's configuration validation file couldn't be found.", True)
 
 			# failed
 			raise KeyboardInterrupt
@@ -82,7 +82,7 @@ class Application :
 		if (not self.configLoad()) :
 			# the configuration couldn't be loaded
 			# print error message
-			self.cli_obj.print_msg(0, "No configuration could be loaded.", True)
+			self.cli_obj.printMsg(0, "No configuration could be loaded.", True)
 
 			# failed
 			raise KeyboardInterrupt
@@ -123,15 +123,15 @@ class Application :
 			raise
 
 		# at this point the program will terminate, so print the outro message
-		self.outro_msg()
+		self.outroMsg()
 
 	# called when the program terminates to print the outro message
-	def outro_msg(self) :
+	def outroMsg(self) :
 		# check if the outro message has been printed already
 		if (not self.cli_obj.outro_msg_printed) :
 			# it hasn't
 			# print the outro message
-			self.cli_obj.print_msg(1, "\n# # # # # # # # # # # # # # # # # # # # # # # # #\n\nThank you for using Pedro Henriques' C/C++ Dependency Generator\n\nFollow this program at https://github.com/PedroHenriques/C_CPP_Dependency_Gen\n\n# # # # # # # # # # # # # # # # # # # # # # # # #", False)
+			self.cli_obj.printMsg(1, "\n# # # # # # # # # # # # # # # # # # # # # # # # #\n\nThank you for using Pedro Henriques' C/C++ Dependency Generator\n\nFollow this program at https://github.com/PedroHenriques/C_CPP_Dependency_Gen\n\n# # # # # # # # # # # # # # # # # # # # # # # # #", False)
 
 			# flag the outro message as having been printed
 			self.cli_obj.outro_msg_printed = True
@@ -192,7 +192,7 @@ class Application :
 			first_iteration = True
 
 			# print message
-			self.cli_obj.print_msg(1, "=> Started the scan of the source files.\n=> Press CTRL-C to end the scan.", False)
+			self.cli_obj.printMsg(1, "=> Started the scan of the source files.\n=> Press CTRL-C to end the scan.", False)
 
 			while True :
 				# find all the relevant files and store them in self.files
@@ -202,7 +202,7 @@ class Application :
 				if (self.files["dependency_template"] == "") :
 					# it wasn't
 					# print error message
-					self.cli_obj.print_msg(0, "Couldn't find the file with name \"" + Application.dependency_template_basename_ + "\", containing the Makefile rule template used to build the dependency files.", True)
+					self.cli_obj.printMsg(0, "Couldn't find the file with name \"" + Application.dependency_template_basename_ + "\", containing the Makefile rule template used to build the dependency files.", True)
 
 					# bail out
 					break
@@ -424,10 +424,10 @@ class Application :
 						# generate and save this dependency file
 						if (dependency_list_str != "" and self.generateDepFile(src_file_basename, dependency_list_str)) :
 							# it was successful
-							self.cli_obj.print_msg(1, "The dependency file for \"" + src_file_basename + "\" was updated.", True)
+							self.cli_obj.printMsg(1, "The dependency file for \"" + src_file_basename + "\" was updated.", True)
 						else :
 							# it failed
-							self.cli_obj.print_msg(0, "The dependency file for \"" + src_file_basename + "\" failed to be updated.", True)
+							self.cli_obj.printMsg(0, "The dependency file for \"" + src_file_basename + "\" failed to be updated.", True)
 
 				# no longer in the first iteration of the loop
 				first_iteration = False
@@ -541,7 +541,7 @@ class Application :
 	# returns the list()
 	def buildDependencyList(self, src_file_basename) :
 		# print start message
-		self.cli_obj.print_msg(1, "Started building dependency list for \"" + src_file_basename + "\"", True)
+		self.cli_obj.printMsg(1, "Started building dependency list for \"" + src_file_basename + "\"", True)
 
 		# get this source file's absolute path
 		src_file_path = self.files["source"][src_file_basename]
@@ -595,7 +595,7 @@ class Application :
 						message += "\n\t\t- " + failed_match
 
 			# print error messages
-			self.cli_obj.print_msg(0, message, True)
+			self.cli_obj.printMsg(0, message, True)
 
 			# check if incomplete lists are to be used
 			if (not self.config["use_incomplete_list"]) :
@@ -604,7 +604,7 @@ class Application :
 				dep_list.clear()
 
 		# print end message
-		self.cli_obj.print_msg(1, "Finished building dependency list for \"" + src_file_basename + "\"", True)
+		self.cli_obj.printMsg(1, "Finished building dependency list for \"" + src_file_basename + "\"", True)
 
 		# return the final data
 		return(dep_list)
@@ -700,7 +700,7 @@ class Application :
 		if (not os.path.isfile(json_path)) :
 			# the file doesn't exist
 			# print error message
-			self.cli_obj.print_msg(0, "The program default configuration file couldn't be found.", True)
+			self.cli_obj.printMsg(0, "The program default configuration file couldn't be found.", True)
 
 			# failed
 			self.config.clear()
@@ -714,7 +714,7 @@ class Application :
 		if (len(self.config) == 0) :
 			# it is
 			# print error message
-			self.cli_obj.print_msg(0, "The program's default configuration file is empty.", True)
+			self.cli_obj.printMsg(0, "The program's default configuration file is empty.", True)
 
 			# failed
 			self.config.clear()
@@ -739,7 +739,7 @@ class Application :
 		if (key not in self.config) :
 			# it doesn't
 			# print error message
-			self.cli_obj.print_msg(0, "The configuration \"" + key + "\" doesn't exist.", True)
+			self.cli_obj.printMsg(0, "The configuration \"" + key + "\" doesn't exist.", True)
 
 			# return faillure
 			return(False)
@@ -798,7 +798,7 @@ class Application :
 		if (project_config_path == "" or not os.path.isfile(project_config_path)) :
 			# it doesn't
 			# print warning message
-			self.cli_obj.print_msg(2, "This project doesn't have a configuration file yet. Use the command \"config save\" to create one.", True)
+			self.cli_obj.printMsg(2, "This project doesn't have a configuration file yet. Use the command \"config save\" to create one.", True)
 
 			# load the program default configuration
 			if(not self.configDefault()) :
@@ -808,7 +808,7 @@ class Application :
 
 			# at this point this program's default configuration was successfully loaded
 			# print message
-			self.cli_obj.print_msg(1, "The program's default configurations was successfully loaded.", True)
+			self.cli_obj.printMsg(1, "The program's default configurations was successfully loaded.", True)
 		else :
 			# it does
 			# decode it
@@ -818,7 +818,7 @@ class Application :
 			if (len(self.config) == 0) :
 				# it is
 				# print error message
-				self.cli_obj.print_msg(0, "This project's configuration file is empty.", True)
+				self.cli_obj.printMsg(0, "This project's configuration file is empty.", True)
 
 				# failed
 				self.config.clear()
@@ -835,7 +835,7 @@ class Application :
 
 			# at this point this project's configuration was successfully loaded
 			# print message
-			self.cli_obj.print_msg(1, "The current project's configuration was successfully loaded.", True)
+			self.cli_obj.printMsg(1, "The current project's configuration was successfully loaded.", True)
 
 		# at this point the loading was successful
 		return(True)
@@ -848,7 +848,7 @@ class Application :
 		if (config_key not in self.config or config_key not in self.config_validation) :
 			# it doesn't
 			# print error message
-			self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" doesn't exist.", True)
+			self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" doesn't exist.", True)
 
 			# return faillure
 			return(False)
@@ -887,7 +887,7 @@ class Application :
 				else :
 					# the value is not a valid boolean
 					# print error message
-					self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" couldn't be converted to a boolean as specified in config_validation.json.", True)
+					self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" couldn't be converted to a boolean as specified in config_validation.json.", True)
 
 					# return faillure
 					return(False)
@@ -899,7 +899,7 @@ class Application :
 			except AttributeError as e :
 				# this data type doesn't exist
 				# print error message
-				self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" couldn't be converted using \"" + self.config_validation[config_key]["data_type"] + "\" as specified in config_validation.json.", True)
+				self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" couldn't be converted using \"" + self.config_validation[config_key]["data_type"] + "\" as specified in config_validation.json.", True)
 
 				# return faillure
 				return(False)
@@ -914,7 +914,7 @@ class Application :
 		if ("min" in self.config_validation[config_key] and self.config[config_key] < self.config_validation[config_key]["min"]) :
 			# the config value is below the minimum
 			# print error message
-			self.cli_obj.print_msg(0, "The value for the configuration \"" + config_key + "\" is below the valid minimum of " + self.config_validation[config_key]["min"], True)
+			self.cli_obj.printMsg(0, "The value for the configuration \"" + config_key + "\" is below the valid minimum of " + self.config_validation[config_key]["min"], True)
 
 			# return faillure
 			return(False)
@@ -923,7 +923,7 @@ class Application :
 		if ("max" in self.config_validation[config_key] and self.config[config_key] > self.config_validation[config_key]["max"]) :
 			# the config value is above the maximum
 			# print error message
-			self.cli_obj.print_msg(0, "The value for the configuration \"" + config_key + "\" is above the valid maximum of " + self.config_validation[config_key]["max"] + ".", True)
+			self.cli_obj.printMsg(0, "The value for the configuration \"" + config_key + "\" is above the valid maximum of " + self.config_validation[config_key]["max"] + ".", True)
 
 			# return faillure
 			return(False)
@@ -932,7 +932,7 @@ class Application :
 		if ("empty" in self.config_validation[config_key] and not self.config_validation[config_key]["empty"] and len(self.config[config_key]) == 0) :
 			# the config value is empty when it can't be
 			# print error message
-			self.cli_obj.print_msg(0, "The value for the configuration \"" + config_key + "\" is empty, which is not allowed.", True)
+			self.cli_obj.printMsg(0, "The value for the configuration \"" + config_key + "\" is empty, which is not allowed.", True)
 
 			# return faillure
 			return(False)
@@ -945,14 +945,14 @@ class Application :
 					if (not getattr(self, callback)(config_key)) :
 						# the validations performed by this callback failed
 						# print error message
-						self.cli_obj.print_msg(0, "The value for the configuration \"" + config_key + "\" didn't pass the validation of \"" + callback + "\".", True)
+						self.cli_obj.printMsg(0, "The value for the configuration \"" + config_key + "\" didn't pass the validation of \"" + callback + "\".", True)
 
 						# return faillure
 						return(False)
 				except AttributeError as e :
 					# this callback doesn't exist
 					# print error message
-					self.cli_obj.print_msg(0, "The callback \"" + callback + "\", for the configuration \"" + config_key + "\", doesn't exist.", True)
+					self.cli_obj.printMsg(0, "The callback \"" + callback + "\", for the configuration \"" + config_key + "\", doesn't exist.", True)
 
 					# return faillure
 					return(False)
@@ -1059,14 +1059,14 @@ class Application :
 				success = False
 
 				# print error message
-				self.cli_obj.print_msg(0, "The \"" + dep_file_basename + "\" dependency file could not be moved from its current location to the correct location, based on the \"dependency_dir\" configuration value.", True)
+				self.cli_obj.printMsg(0, "The \"" + dep_file_basename + "\" dependency file could not be moved from its current location to the correct location, based on the \"dependency_dir\" configuration value.", True)
 			else :
 				# moved the file
 				# update this dependency file's path in self.files
 				self.files["dependency"][dep_file_basename] = new_path
 
 				# print message
-				self.cli_obj.print_msg(1, "Moved file \"" + dep_file_basename + "\".", True)
+				self.cli_obj.printMsg(1, "Moved file \"" + dep_file_basename + "\".", True)
 
 		# return the success boolean
 		return(success)
@@ -1091,13 +1091,13 @@ class Application :
 				if (not General.General.moveFile(project_config_path, correct_path)) :
 					# couldn't move the existing file to the correct directory
 					# print error message
-					self.cli_obj.print_msg(0, "The existing configuration file for this project couldn't be moved to the correct location, based on the current value of the \"dependency_dir\" configuration.", True)
+					self.cli_obj.printMsg(0, "The existing configuration file for this project couldn't be moved to the correct location, based on the current value of the \"dependency_dir\" configuration.", True)
 
 					# return faillure
 					return(False)
 
 				# print message
-				self.cli_obj.print_msg(1, "Moved this project's configuration file.", True)
+				self.cli_obj.printMsg(1, "Moved this project's configuration file.", True)
 
 		# at this point everything went OK
 		return(True)
@@ -1142,7 +1142,7 @@ class Application :
 		if ("path_types" not in self.config_validation[config_key]) :
 			# it doesn't, so the configuration validation file is not valid
 			# print error message
-			self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" needs to have information about the \"path_types\", in the config_validation.json file.", True)
+			self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" needs to have information about the \"path_types\", in the config_validation.json file.", True)
 
 			# terminate the program
 			raise KeyError
@@ -1172,7 +1172,7 @@ class Application :
 			else :
 				# it can't
 				# print error message
-				self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" has a relative path, which is not valid.", True)
+				self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" has a relative path, which is not valid.", True)
 
 				# return faillure
 				return(False)
@@ -1182,7 +1182,7 @@ class Application :
 			if ("abs" not in self.config_validation[config_key]["path_types"]) :
 				# it can't
 				# print error message
-				self.cli_obj.print_msg(0, "The configuration \"" + config_key + "\" has an absolute path, which is not valid.", True)
+				self.cli_obj.printMsg(0, "The configuration \"" + config_key + "\" has an absolute path, which is not valid.", True)
 
 				# return faillure
 				return(False)

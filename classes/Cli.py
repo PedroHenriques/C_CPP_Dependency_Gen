@@ -1,6 +1,6 @@
 ############################################################
 #															#
-# C_Cpp_Dependency_Gen v1.0.0								#
+# C_Cpp_Dependency_Gen v1.0.1								#
 #															#
 # Copyright 2017, PedroHenriques							#
 # http://www.pedrojhenriques.com							#
@@ -30,7 +30,7 @@ class Cli :
 	# 		0 = error
 	# 		1 = normal message
 	# 		2 = warning
-	def print_msg(self, type, text, show_timestamp) :
+	def printMsg(self, type, text, show_timestamp) :
 		# build the message string
 		message = "\n"
 
@@ -81,7 +81,7 @@ class Cli :
 				if (re_match == None) :
 					# it didn't
 					# print error message
-					self.print_msg(0, "The input provided is not valid.\nType \"help\" for a list of valid commands.", True)
+					self.printMsg(0, "The input provided is not valid.\nType \"help\" for a list of valid commands.", True)
 
 					continue
 
@@ -102,7 +102,7 @@ class Cli :
 				except AttributeError as e :
 					# couldn't find a method matching the command given
 					# print error message
-					self.print_msg(0, "The command " + command + " is not valid.\nType \"help\" for a list of valid commands.", True)
+					self.printMsg(0, "The command " + command + " is not valid.\nType \"help\" for a list of valid commands.", True)
 
 					# continue the loop alive
 					output = 0
@@ -131,7 +131,7 @@ class Cli :
 		str += "\n\t- exit: exit the program."
 
 		# print the valid commands
-		self.print_msg(1, str, False)
+		self.printMsg(1, str, False)
 
 		# signal this class to continue asking for commands
 		return(0)
@@ -145,7 +145,7 @@ class Cli :
 		if (re_match == None) :
 			# they aren't
 			# print error message
-			self.print_msg(0, "The parameters provided to the config command aren't valid.\nType \"help\" for a list of valid syntax.", True)
+			self.printMsg(0, "The parameters provided to the config command aren't valid.\nType \"help\" for a list of valid syntax.", True)
 
 			# signal this class to continue asking for commands
 			return(0)
@@ -168,24 +168,24 @@ class Cli :
 				text += "\n\t- " + config_key + " = " + str(config_data[config_key])
 
 			# print the message
-			self.print_msg(1, text, True)
+			self.printMsg(1, text, True)
 		elif (sub_command == "save") :
 			# inform the Application class to save the current configuration
 			if (self.caller_obj.configSave()) :
 				# the operation was successful
 				# print message
-				self.print_msg(1, "The current configurations were successfully saved.", True)
+				self.printMsg(1, "The current configurations were successfully saved.", True)
 			else :
 				# something went wrong
 				# print error message
-				self.print_msg(0, "The current configurations couldn't be saved. Please try again.", True)
+				self.printMsg(0, "The current configurations couldn't be saved. Please try again.", True)
 		elif (sub_command == "load") :
 			# inform the Application class to load this project's configuration
 			# NOTE: the success message will be printed by configLoad() if this project has a config file
 			if (not self.caller_obj.configLoad()) :
 				# something went wrong
 				# print error message
-				self.print_msg(0, "The current project's configuration couldn't be loaded. Please try again.", True)
+				self.printMsg(0, "The current project's configuration couldn't be loaded. Please try again.", True)
 		elif (sub_command == "set") :
 			# extract the configuration tag and new value
 			config_data = re_match_groups[1].strip()
@@ -195,7 +195,7 @@ class Cli :
 			if (config_data_match == None) :
 				# it didn't
 				# print error message
-				self.print_msg(0, "The configuration key-value pair provided \"" + config_data + "\" is not valid.\nType \"config show\" for a list of valid configuration keys.", True)
+				self.printMsg(0, "The configuration key-value pair provided \"" + config_data + "\" is not valid.\nType \"config show\" for a list of valid configuration keys.", True)
 
 				# signal this class to continue asking for commands
 				return(0)
@@ -211,7 +211,7 @@ class Cli :
 			if (config_key == "") :
 				# it is
 				# print error message
-				self.print_msg(0, "The key for a configuration change can't be empty.", True)
+				self.printMsg(0, "The key for a configuration change can't be empty.", True)
 
 				# signal this class to continue asking for commands
 				return(0)
@@ -220,25 +220,25 @@ class Cli :
 			if (self.caller_obj.configSet(config_key, config_value)) :
 				# the operation was successful
 				# print message
-				self.print_msg(1, "The configuration " + config_key + " was successfully changed.\nIn order to preserve this change don't forget to call \"config save\".", True)
+				self.printMsg(1, "The configuration " + config_key + " was successfully changed.\nIn order to preserve this change don't forget to call \"config save\".", True)
 			else :
 				# something went wrong
 				# print error message
-				self.print_msg(0, "The configuration " + config_key + " couldn't be changed. Please try again.", True)
+				self.printMsg(0, "The configuration " + config_key + " couldn't be changed. Please try again.", True)
 		elif (sub_command == "default") :
 			# inform the Application class to load the program default configuration
 			if (self.caller_obj.configDefault()) :
 				# the operation was successful
 				# print message
-				self.print_msg(1, "The program's default configurations was successfully loaded.", True)
+				self.printMsg(1, "The program's default configurations was successfully loaded.", True)
 			else :
 				# something went wrong
 				# print error message
-				self.print_msg(0, "The program's default configurations couldn't be loaded. Please try again.", True)
+				self.printMsg(0, "The program's default configurations couldn't be loaded. Please try again.", True)
 		else :
 			# the sub-command is not valid
 			# print error message
-			self.print_msg(0, "The sub-command " + sub_command + " is not valid.\nType \"help\" for a list of valid syntax.", True)
+			self.printMsg(0, "The sub-command " + sub_command + " is not valid.\nType \"help\" for a list of valid syntax.", True)
 
 		# signal this class to continue asking for commands
 		return(0)
